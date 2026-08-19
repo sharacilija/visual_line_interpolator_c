@@ -2,7 +2,7 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Build C with raylib",
+            "label": "Build main",
             "type": "shell",
             "command": "C:/msys64/mingw64/bin/gcc.exe",
             "args": [
@@ -12,30 +12,91 @@
                 "-Wshadow",
                 "-Wconversion",
                 "-std=c17",
-
-                "${file}",
-
+                "main.c",
                 "-o",
-                "${fileDirname}/${fileBasenameNoExtension}.exe",
-
+                "main.exe",
                 "-IC:/msys64/mingw64/include",
                 "-LC:/msys64/mingw64/lib",
-
                 "-lraylib",
+                "-lm",
                 "-lopengl32",
                 "-lgdi32",
                 "-lwinmm"
             ],
             "options": {
-                "cwd": "${fileDirname}"
+                "cwd": "${workspaceFolder}"
             },
             "problemMatcher": [
                 "$gcc"
+            ]
+        },
+        {
+            "label": "Build gpt56solxhigh_oneshot",
+            "type": "shell",
+            "command": "C:/msys64/mingw64/bin/gcc.exe",
+            "args": [
+                "-Wall",
+                "-Wextra",
+                "-Wpedantic",
+                "-Wshadow",
+                "-Wconversion",
+                "-std=c17",
+                "gpt56solxhigh_oneshot.c",
+                "-o",
+                "gpt56solxhigh_oneshot.exe",
+                "-IC:/msys64/mingw64/include",
+                "-LC:/msys64/mingw64/lib",
+                "-lraylib",
+                "-lm",
+                "-lopengl32",
+                "-lgdi32",
+                "-lwinmm"
             ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ]
+        },
+        {
+            "label": "Build both versions",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Build main",
+                "Build gpt56solxhigh_oneshot"
+            ],
+            "problemMatcher": [],
             "group": {
                 "kind": "build",
                 "isDefault": true
             }
+        },
+        {
+            "label": "Run main",
+            "type": "shell",
+            "command": "./main.exe",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Build main"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Run gpt56solxhigh_oneshot",
+            "type": "shell",
+            "command": "./gpt56solxhigh_oneshot.exe",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Build gpt56solxhigh_oneshot"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": []
         }
     ]
 }
